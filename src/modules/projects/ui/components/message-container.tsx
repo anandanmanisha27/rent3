@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { Fragment } from "@/generated/prisma";
 import { set } from "date-fns";
 import { MessageLoading } from "./message-loading";
+import { lastAssistantTextMessageContent } from "@/inngest/utils";
 interface Props {
   projectId: string;
   activeFragments: Fragment | null;
@@ -19,6 +20,7 @@ export const MessagesContainer = ({
 }: Props) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const trpc = useTRPC();
+  const lastAssistantMessageIDRef = useRef<string | null>(null);
 
   const { data: messages } = useSuspenseQuery(
     trpc.messages.getMany.queryOptions({
@@ -28,16 +30,20 @@ export const MessagesContainer = ({
         refetchInterval: 5000,
     })
   );
-// this is causing problems
-//   useEffect(() => {
-//     const lastAssistantMessage = messages.findLast( 
-//         (message) => message.role === "ASSISTANT" && !!message.fragments,
-//     );
 
-//     if (lastAssistantMessage) {
-//         setActiveFragments(lastAssistantMessage.fragments);
-//     }
-//   }, [messages, setActiveFragments]);
+   useEffect(() => {
+    const lastAssistantMessage = messages.findLast(
+      (message) => message.role === "ASSISTANT"
+    );
+    if (
+      lastAssistantMessage?.fragments &&
+      lastAssistantMessage.id !== lastAssistantMessageIDRef.current
+    ) {
+      setActiveFragments(lastAssistantMessage.fragments);
+      lastAssistantMessageIDRef.current = lastAssistantMessage.id;
+    }
+     
+   }, [messages, setActiveFragments]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView();
