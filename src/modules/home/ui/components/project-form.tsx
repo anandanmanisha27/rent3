@@ -46,7 +46,9 @@ export const ProjectForm =  () => {
                 trpc.projects.getMany.queryOptions(),
             );
             router.push(`/projects/${data.id}`);
-            // TODO: Invalidate usage status
+            queryClient.invalidateQueries(
+                trpc.usage.status.queryOptions(),
+            );
 
         },
         onError: (error) => {
@@ -54,10 +56,13 @@ export const ProjectForm =  () => {
             if (error.data?.code === "UNAUTHORIZED") {
                 clerk.openSignIn();
             }
-            // TODO: Redirect to pricing Page if specific error
             
-        }
-    }))
+            if  (error.data?.code === "TOO_MANY_REQUESTS") {
+                router.push("/pricing");
+            }
+            
+        },
+    }));
 
     const onSubmit=async (values: z.infer<typeof formSchema>) => {
         await createProject.mutateAsync({
