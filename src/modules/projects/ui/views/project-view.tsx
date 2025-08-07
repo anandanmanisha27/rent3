@@ -22,6 +22,7 @@ import { ProjectHeader } from "../components/project-header";
 
 import { MessagesContainer } from "../components/message-container";
 import { useAuth } from "@clerk/nextjs";
+import { ErrorBoundary } from "react-error-boundary";
 
 
 
@@ -48,11 +49,13 @@ export const ProjectView = ({ projectId }: Props) => {
                 minSize={20}
                 className="flex flex-col min-h-0"
             >
-                <Suspense fallback= {<p>Loading Project...</p>}>
-                    <ProjectHeader projectId={projectId} />
+                <ErrorBoundary fallback={<p>Project heade error</p>}>
+                    <Suspense fallback= {<p>Loading Project...</p>}>
+                        <ProjectHeader projectId={projectId} />
 
-                </Suspense>
-                
+                    </Suspense>
+                </ErrorBoundary>
+                <ErrorBoundary fallback={<p>Messages container error</p>}>
                 <Suspense fallback={<p>Loading messages...</p>}>
 
                     <MessagesContainer
@@ -62,6 +65,7 @@ export const ProjectView = ({ projectId }: Props) => {
                     
                     />
                 </Suspense>
+                </ErrorBoundary>
             </ResizablePanel>
 
             <ResizableHandle className="hover:bg-primary transition-colors" />
