@@ -5,7 +5,7 @@ import { inngest } from "./client";
 import { getSandbox, lastAssistantTextMessageContent } from "./utils";
 import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from "@/prompt";
 import { prisma } from "@/lib/db";
-import { title } from "process";
+
 import { SANDBOX_TIMEOUT } from "./types";
 
 interface AgentState {

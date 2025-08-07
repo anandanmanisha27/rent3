@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TreeItem } from "@/types";
-import { Children } from "react";
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -34,7 +34,7 @@ export function convertFilesToTreeItems(
     current[fileName] = null;
   }
 
-  function convertNode(node: TreeNode, name?: string): TreeItem[] | TreeItem {
+  function convertNode(node: TreeNode): TreeItem[] | TreeItem {
     const entries = Object.entries(node);
     const children: TreeItem[] = [];
 
@@ -44,7 +44,7 @@ export function convertFilesToTreeItems(
         children.push(key);
       } else {
         // This is a folder
-        const subTree = convertNode(value, key);
+        const subTree = convertNode(value);
         if (Array.isArray(subTree)) {
           children.push([key, ...subTree]);
         } else {

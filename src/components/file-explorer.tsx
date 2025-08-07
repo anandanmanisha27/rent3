@@ -5,7 +5,7 @@ import { Hint } from "@/components/ui/hint";
 import { Button } from "@/components/ui/button";
 import { CodeView } from "@/components/code-view";
 import {
-  ResizableHandle,
+  
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";

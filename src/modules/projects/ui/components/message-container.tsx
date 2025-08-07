@@ -4,9 +4,9 @@ import { MessageForm } from "./message-form"
 import { MessageCard } from "./message-card";
 import { useEffect, useRef } from "react";
 import { Fragment } from "@/generated/prisma";
-import { set } from "date-fns";
+
 import { MessageLoading } from "./message-loading";
-import { lastAssistantTextMessageContent } from "@/inngest/utils";
+
 interface Props {
   projectId: string;
   activeFragments: Fragment | null;

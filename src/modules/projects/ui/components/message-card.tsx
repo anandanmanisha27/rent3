@@ -3,8 +3,6 @@ import { Fragment, MessageRole, MessageType } from "@/generated/prisma";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { fr } from "date-fns/locale";
-import { on } from "events";
 import { ChevronRightIcon, Code2Icon } from "lucide-react";
 
 interface UserMessageProps {
